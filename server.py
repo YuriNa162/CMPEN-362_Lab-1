@@ -18,9 +18,14 @@ while True:
     try:
         http_message = connSocket.recv(1024) #bytes var
         if utilities.server_http_parser(http_message) == 0:
-            connSocket.send()
+            #connSocket.send()
+            pass
+        else:
+            print("File not found!")
+            connSocket.send(utilities.server_http_compiler("ERROR"))
     except IOError:
-        print("No access to file!")
+        print("File access error!")
+        connSocket.send(utilities.server_http_compiler("ERROR"))
     connSocket.close()
     break
 serverSocket.close()
