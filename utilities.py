@@ -6,31 +6,24 @@ def server_http_parser(request: bytes) -> str:
         request (bytes): Bit stream HTTP request. DOES NOT ACCEPTS .decode()
 
     Returns:
-        (int): 0 if GET request is index.html, -1 otherwise
+        (str): Name of file requested
     """
     message = request.decode().split()
     filename = message[1][1:]
-    if filename[-4:] == "html": # Make sure it's a HTML file
-        return filename
-    else:
-        return "ERROR"
+    return filename
 def server_http_compiler(filename: str) -> bytes:
     """
     Compile a full HTTP message with the specified HTML file. If filename is "ERROR", a 404 message instead
 
     Args:
-        filename (str): _description_
+        filename (str): HTML file needed to be compiled to HTTP message
 
     Returns:
-        bytes: _description_
+        bytes: Returns a bitstream HTTP message if the filename is found, 404 message otherwise
     """
-    if filename == "ERROR":
+    try:
+        header = "HTTP/1.1 200 OK\r\n\r\n"
+        file_content = open(filename, "r").read()
+        return (header + file_content).encode()
+    except IOError: # Handling file not found
         return ("HTTP/1.1 404 Not Found\r\n\r\n" + "<html><body><h1>404 Not Found</h1></body></html>").encode()
-    else:
-        try:
-            header = "HTTP/1.1 200 OK\r\n\r\n"
-            file_content = open(filename, "r").read()
-            return (header + file_content).encode()
-        except IOError:
-            return ("HTTP/1.1 404 Not Found\r\n\r\n" + "<html><body><h1>404 Not Found</h1></body></html>").encode()
-    
