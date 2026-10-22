@@ -22,8 +22,8 @@ def server_http_compiler(filename: str) -> bytes:
         bytes: Returns a bitstream HTTP message if the filename is found, 404 message otherwise
     """
     try:
-        header = "HTTP/1.1 200 OK\r\n\r\n"
         file_content = open(filename, "r").read()
+        header = "HTTP/1.1 200 OK\r\n\r\n"
         return (header + file_content).encode()
-    except IOError: # Handling file not found
+    except IOError: # Handling file not found or garbage input
         return ("HTTP/1.1 404 Not Found\r\n\r\n" + "<html><body><h1>404 Not Found</h1></body></html>").encode()
