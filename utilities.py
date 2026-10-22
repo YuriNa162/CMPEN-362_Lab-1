@@ -27,7 +27,7 @@ def server_http_compiler(filename: str) -> bytes:
     if filename == "ERROR":
         return ("HTTP/1.1 404 Not Found\r\n\r\n" + "<html><body><h1>404 Not Found</h1></body></html>").encode()
     else:
-        header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n"
+        header = "HTTP/1.1 200 OK\r\n\r\n"
         file_content = open(filename, "r").read()
         return (header + file_content).encode()
     
