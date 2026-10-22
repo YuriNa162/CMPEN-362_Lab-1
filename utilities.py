@@ -9,7 +9,7 @@ def server_http_parser(request: bytes) -> str:
         (int): 0 if GET request is index.html, -1 otherwise
     """
     message = request.decode().split()
-    filename = message.split()[1][1:]
+    filename = message[1][1:]
     return filename
 def server_http_compiler(filename: str) -> bytes:
     """
