@@ -10,7 +10,10 @@ def server_http_parser(request: bytes) -> str:
     """
     message = request.decode().split()
     filename = message[1][1:]
-    return filename
+    if filename[-4:] == "html": # Make sure it's a HTML file
+        return filename
+    else:
+        return "ERROR"
 def server_http_compiler(filename: str) -> bytes:
     """
     Compile a full HTTP message with the specified HTML file. If filename is "ERROR", a 404 message instead
