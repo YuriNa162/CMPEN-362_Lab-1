@@ -15,17 +15,10 @@ while True:
     connSocket, addr = serverSocket.accept()
     print(f"Client {addr}")
     connSocket.settimeout(10)
-    try:
-        http_message = connSocket.recv(1024) #bytes var
-        if utilities.server_http_parser(http_message) == 0:
-            #connSocket.send()
-            pass
-        else:
-            print("File not found!")
-            connSocket.send(utilities.server_http_compiler("ERROR"))
-    except IOError:
-        print("File access error!")
-        connSocket.send(utilities.server_http_compiler("ERROR"))
-    connSocket.close()
+    http_message = connSocket.recv(1024)
+    # Parser gets requested file name and send it straight to compiler
+    # File not found is handled by compiler, returning a 404 message
+    http_response = utilities.server_http_compiler(utilities.server_http_parser(http_message))
+    connSocket.send(http_response)
     break
 serverSocket.close()
