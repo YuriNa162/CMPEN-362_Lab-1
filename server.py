@@ -39,6 +39,7 @@ def server_http_compiler(filename: str) -> bytes:
         header = "HTTP/1.1 200 OK\r\n\r\n"
         return (header + file_content).encode()
     except IOError: # Handling file not found or garbage input
+        print("FILE NOT FOUND")
         return ("HTTP/1.1 404 Not Found\r\n\r\n" + "<html><body><h1>404 Not Found</h1></body></html>").encode()
 
 while True:
