@@ -1,6 +1,6 @@
 import socket
 import os
-import utilities
+
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("Socket created successfully")
 
